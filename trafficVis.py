@@ -28,8 +28,6 @@ DISTANCEBUFFER = 5
 GREEN = 6       # How long light is green
 RED = 6         # How long light is red
 
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 class CarObj:
     def __init__(self, cid, arrivalTime, color, x):
@@ -41,7 +39,7 @@ class CarObj:
         self.y = HEIGHT//2+15
         self.speed = 120
         
-    def draw(self):
+    def draw(self, screen):
         pygame.draw.rect(screen, 'black', pygame.Rect(self.x, self.y, CARLEN+1,21),1)
         pygame.draw.rect(screen, self.color, pygame.Rect(self.x, self.y, CARLEN,20))
 
@@ -82,13 +80,11 @@ class CarObj:
            
 
 class TrafficLightObj:
-    def __init__(self, greenDuration, redDuration):
+    def __init__(self, lightDuration):
         #status: Red = False, Green = True
         self.status = False
-        #how long of a green light
-        self.greenLightDuration = greenDuration
-        #how long of a red light
-        self.redLightDuration = redDuration
+        #how long before light switches
+        self.lightDuration = lightDuration
    
         #FIFO queue for cars at light
         self.trafficQueue = []
@@ -118,13 +114,16 @@ def spawnCar(start):
 
         
 
-def main():
+def trafficVisual(runtime=30, lightDuration=6):
+    pygame.init()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
     start = time.time()
     totalWait = 0
     totalCar = 0
 
     #create trafficLight
-    trafficLight = TrafficLightObj(GREEN, RED)
+    trafficLight = TrafficLightObj(lightDuration)
     #cars list for all cars in scene
     cars = []
 
@@ -134,9 +133,13 @@ def main():
 
     count = 0 
     carCount = 0
+    runcount = 0
 
     
     while running:
+        if runcount >= (runtime*FRAMERATE):
+            break
+    
         dt = clock.tick(FRAMERATE) / 1000
 
         for event in pygame.event.get():
@@ -147,7 +150,7 @@ def main():
 
         #--- SIM LOGIC & VISUAL ---
         #check light signal
-        if count >= (GREEN*FRAMERATE):
+        if count >= (trafficLight.lightDuration*FRAMERATE):
             count = 0
             trafficLight.flip()    
 
@@ -174,7 +177,7 @@ def main():
         
         for i, car in enumerate(cars):
             car.move(dt, trafficLight, start)
-            car.draw()
+            car.draw(screen)
 
             if car.x >= WIDTH:
                 cars.remove(car)
@@ -192,8 +195,10 @@ def main():
         screen.blit(txtTime, (8,8))
         screen.blit(txt, (100,8))
         pygame.display.flip()
+
         count+=1
         carCount+=1
+        runcount+=1
     
     if totalCar == 0:
         avgWait = 0
@@ -201,10 +206,11 @@ def main():
         avgWait = round(totalWait/totalCar, 2)
     print(f"{totalCar} cars waited an average of {avgWait} seconds for the light to turn green")
     pygame.quit()
+    return avgWait
 
 
 
 
 
 if __name__ == '__main__':
-    main()
+    trafficVisual()

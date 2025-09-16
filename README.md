@@ -4,6 +4,10 @@ This program simulates cars approaching a **single-lane intersection** with a fi
 Cars are spawned at random intervals, approach the stop line, and either stop or proceed based on the light and queue in front of them.  
 
 ---
+## Demo
+
+![Traffic Sim Demo](demo.gif)
+
 
 ## 🚦 How it Works
 

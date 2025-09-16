@@ -6,7 +6,7 @@ Cars are spawned at random intervals, approach the stop line, and either stop or
 ---
 ## Demo
 
-![Traffic Sim Demo](demo.gif)
+![Traffic Sim Demo](trafficDemo.gif)
 
 
 ## 🚦 How it Works

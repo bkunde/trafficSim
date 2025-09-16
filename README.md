@@ -9,7 +9,7 @@ Cars are spawned at random intervals, approach the stop line, and either stop or
 ![Traffic Sim Demo](trafficDemo.gif)
 
 
-## 🚦 How it Works
+##  How it Works
 
 - **Traffic Light**
   - Alternates between red and green every `lightDuration` seconds.
@@ -41,18 +41,20 @@ Cars are spawned at random intervals, approach the stop line, and either stop or
 
 ---
 
-## 📊 Simulation Metrics
+## Simulation Metrics
 
 At the end of the run:
 - The program prints the **total number of cars processed**.
 - Calculates the **average wait time** (seconds) across all cars.
+
+Use trafficPlot.py to plot average wait time to number of simulations ran.
 
 Example output:
 15 cars waited an average of 7.31 seconds for the light to turn green
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 - **Window size**: `1280x720` (scaled down by half for the sim window).
 - **Frame rate**: `FRAMERATE = 30`.
@@ -68,7 +70,7 @@ You can tweak these constants at the top of the file to change the traffic dynam
 
 ---
 
-## ▶️ Running the Simulation
+## Running the Simulation
 
 Run the script directly:
 
